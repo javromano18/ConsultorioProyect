@@ -1,5 +1,6 @@
 import Pacientes from "./components/Pacientes";
 import Profesionales from "./components/Profesionales";
+import Turnos from "./components/Turnos"; 
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <h1>Consultorio Odontológico</h1>
       <Pacientes />
       <Profesionales />
+      <Turnos /> 
     </div>
   );
 }

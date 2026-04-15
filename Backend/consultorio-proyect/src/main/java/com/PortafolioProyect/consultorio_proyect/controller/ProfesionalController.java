@@ -5,7 +5,6 @@ import com.PortafolioProyect.consultorio_proyect.service.ProfesionalService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/profesionales")
 public class ProfesionalController {

@@ -2,7 +2,6 @@ package com.PortafolioProyect.consultorio_proyect.controller;
 
 import com.PortafolioProyect.consultorio_proyect.model.Paciente;
 import com.PortafolioProyect.consultorio_proyect.service.PacienteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

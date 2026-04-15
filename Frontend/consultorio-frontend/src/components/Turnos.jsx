@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import "../styles/Turnos.css";
 
 function Turnos() {
   const [turnos, setTurnos] = useState([]);

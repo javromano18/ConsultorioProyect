@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-
+import "../styles/Profesionales.css";
 
 function Profesionales() {
   const [profesionales, setProfesionales] = useState([]);

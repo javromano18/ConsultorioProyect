@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import "../styles/Pacientes.css"; 
 
 function Pacientes() {
   const [pacientes, setPacientes] = useState([]);

@@ -1,9 +1,11 @@
 package com.PortafolioProyect.consultorio_proyect.service;
 
 import com.PortafolioProyect.consultorio_proyect.model.Paciente;
+import com.PortafolioProyect.consultorio_proyect.model.Profesional;
 import com.PortafolioProyect.consultorio_proyect.model.Turno;
+import com.PortafolioProyect.consultorio_proyect.repository.PacienteRepository;
+import com.PortafolioProyect.consultorio_proyect.repository.ProfesionalRepository;
 import com.PortafolioProyect.consultorio_proyect.repository.TurnoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +13,13 @@ import java.util.List;
 @Service
 public class TurnoService {
     private final TurnoRepository turnoRepository;
+    private final PacienteRepository pacienteRepository;
+    private final ProfesionalRepository profesionalRepository;
 
-    public TurnoService(TurnoRepository turnoRepository) {
+    public TurnoService(TurnoRepository turnoRepository, PacienteRepository pacienteRepository, ProfesionalRepository profesionalRepository) {
         this.turnoRepository = turnoRepository;
+        this.pacienteRepository = pacienteRepository;
+        this.profesionalRepository = profesionalRepository;
     }
 
     //Listar todos
@@ -28,6 +34,16 @@ public class TurnoService {
 
     //Crear
     public Turno createTurno(Turno t){
+        Paciente paciente = pacienteRepository.findById(t.getPaciente().getId()).orElse(null);
+        Profesional profesional = profesionalRepository.findById(t.getProfesional().getId()).orElse(null);
+
+        t.setPaciente(paciente);
+        t.setProfesional(profesional);
+
+        if (t.getEstado() == null || t.getEstado().isEmpty()) {
+            t.setEstado("Pendiente");
+        }
+
         return turnoRepository.save(t);
     }
 

@@ -7,14 +7,16 @@ function Turnos() {
   const [nuevoTurno, setNuevoTurno] = useState({
     fecha: "",
     hora: "",
-    pacienteId: "",
-    profesionalId: ""
+    paciente: { id: "" },
+    profesional: { id: "" },
+    estado: "Pendiente",
   });
 
   useEffect(() => {
-    api.get("/turnos")
-      .then(response => setTurnos(response.data))
-      .catch(error => console.error(error));
+    api
+      .get("/turnos")
+      .then((response) => setTurnos(response.data))
+      .catch((error) => console.error(error));
   }, []);
 
   const handleChange = (e) => {
@@ -23,21 +25,30 @@ function Turnos() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    api.post("/turnos", nuevoTurno)
-      .then(response => {
+    api
+      .post("/turnos", nuevoTurno)
+      .then((response) => {
         setTurnos([...turnos, response.data]);
-        setNuevoTurno({ fecha: "", hora: "", pacienteId: "", profesionalId: "" });
+        setNuevoTurno({
+          fecha: "",
+          hora: "",
+          paciente: { id: "" },
+          profesional: { id: "" },
+          estado: "Pendiente",
+        });
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   };
 
   return (
     <div className="turnos-container">
       <h2>Listado de Turnos</h2>
       <ul className="turnos-list">
-        {turnos.map(t => (
+        {turnos.map((t) => (
           <li key={t.id}>
-            {t.fecha} {t.hora} - Paciente: {t.paciente?.nombre} {t.paciente?.apellido} / Profesional: {t.profesional?.nombre} {t.profesional?.apellido}
+            {t.fecha} {t.hora} - Paciente: {t.paciente?.nombre}{" "}
+            {t.paciente?.apellido} / Profesional: {t.profesional?.nombre}{" "}
+            {t.profesional?.apellido}
           </li>
         ))}
       </ul>
@@ -46,25 +57,62 @@ function Turnos() {
       <form className="turno-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="fecha">Fecha:</label>
-          <input id="fecha" type="date" name="fecha" value={nuevoTurno.fecha} onChange={handleChange} required />
+          <input
+            id="fecha"
+            type="date"
+            name="fecha"
+            value={nuevoTurno.fecha}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="hora">Hora:</label>
-          <input id="hora" type="time" name="hora" value={nuevoTurno.hora} onChange={handleChange} required />
+          <input
+            id="hora"
+            type="time"
+            name="hora"
+            value={nuevoTurno.hora}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="pacienteId">ID Paciente:</label>
-          <input id="pacienteId" type="text" name="pacienteId" value={nuevoTurno.pacienteId} onChange={handleChange} required />
+          <input
+            id="paciente"
+            type="text"
+            name="paciente"
+            value={nuevoTurno.paciente.id}
+            onChange={(e) =>
+              setNuevoTurno({ ...nuevoTurno, paciente: { id: e.target.value } })
+            }
+            required
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="profesionalId">ID Profesional:</label>
-          <input id="profesionalId" type="text" name="profesionalId" value={nuevoTurno.profesionalId} onChange={handleChange} required />
+          <input
+            id="profesional"
+            type="text"
+            name="profesional"
+            value={nuevoTurno.profesional.id}
+            onChange={(e) =>
+              setNuevoTurno({
+                ...nuevoTurno,
+                profesional: { id: e.target.value },
+              })
+            }
+            required
+          />
         </div>
 
-        <button type="submit" className="btn-submit">Guardar</button>
+        <button type="submit" className="btn-submit">
+          Guardar
+        </button>
       </form>
     </div>
   );

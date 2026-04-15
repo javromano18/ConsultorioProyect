@@ -5,7 +5,7 @@ import com.PortafolioProyect.consultorio_proyect.service.PacienteService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/pacientes")
 public class PacienteController {

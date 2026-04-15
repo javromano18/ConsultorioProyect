@@ -3,9 +3,9 @@ package com.PortafolioProyect.consultorio_proyect.controller;
 import com.PortafolioProyect.consultorio_proyect.model.Turno;
 import com.PortafolioProyect.consultorio_proyect.service.TurnoService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/turnos")
 public class TurnoController {

@@ -3,8 +3,9 @@ package com.PortafolioProyect.consultorio_proyect.controller;
 import com.PortafolioProyect.consultorio_proyect.model.Profesional;
 import com.PortafolioProyect.consultorio_proyect.service.ProfesionalService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/profesionales")
 public class ProfesionalController {

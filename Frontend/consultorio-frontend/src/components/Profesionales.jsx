@@ -7,7 +7,8 @@ function Profesionales() {
   const [nuevoProfesional, setNuevoProfesional] = useState({
     nombre: "",
     apellido: "",
-    matricula: ""
+    matricula: "",
+    especialidad: ""
   });
 
   useEffect(() => {
@@ -25,7 +26,7 @@ function Profesionales() {
     api.post("/profesionales", nuevoProfesional)
       .then(response => {
         setProfesionales([...profesionales, response.data]);
-        setNuevoProfesional({ nombre: "", apellido: "", matricula: "" });
+        setNuevoProfesional({ nombre: "", apellido: "", matricula: "", especialidad: "" });
       })
       .catch(error => console.error(error));
   };
@@ -36,7 +37,7 @@ function Profesionales() {
       <ul className="profesionales-list">
         {profesionales.map(p => (
           <li key={p.id}>
-            {p.nombre} {p.apellido} - Matrícula: {p.matricula}
+            {p.nombre} {p.apellido} - Matrícula: {p.matricula} - Especialidad: {p.especialidad}
           </li>
         ))}
       </ul>
@@ -74,6 +75,18 @@ function Profesionales() {
             type="text"
             name="matricula"
             value={nuevoProfesional.matricula}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="especialidad">Especialidad:</label>
+          <input
+            id="especialidad"
+            type="text"
+            name="especialidad"
+            value={nuevoProfesional.especialidad}
             onChange={handleChange}
             required
           />

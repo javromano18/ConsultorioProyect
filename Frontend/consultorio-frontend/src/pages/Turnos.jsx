@@ -48,13 +48,13 @@ const handleSubmit = (e) => {
   return (
     <div className="turnos-container">
       {mostrarLista && (
-        <> <h3>Lista de Turnos</h3>
+        <> <h3>Lista de Turnos</h3> <hr />
         <ul className="turnos-list">
           {turnos.map((t) => (
             <li key={t.id}>
-              Fecha: {t.fecha} - Hora: {t.hora} - Paciente: {t.paciente?.nombre}{" "}
-              {t.paciente?.apellido} - Profesional: {t.profesional?.nombre}{" "}
-              {t.profesional?.apellido}
+              <b>{t.id} - </b> Fecha: {t.fecha} / Hora: {t.hora} <br /> Paciente: {t.paciente?.nombre}{" "}
+              {t.paciente?.apellido} <br /> Profesional: {t.profesional?.nombre}{" "}
+              {t.profesional?.apellido} <hr />
             </li>
           ))}
         </ul>

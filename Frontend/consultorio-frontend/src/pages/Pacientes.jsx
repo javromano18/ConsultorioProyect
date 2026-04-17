@@ -14,7 +14,6 @@ function Pacientes() {
     fechaNacimiento: "",
   });
 
-  // Obtener pacientes
   useEffect(() => {
     api
       .get("/pacientes")
@@ -50,12 +49,15 @@ function Pacientes() {
     <div className="pacientes-container">
 
       {mostrarLista && (
-        <> <h3>Lista de Pacientes</h3>
+        <> <h3>Lista de Pacientes</h3> <hr />
         <ul className="pacientes-list">
           {pacientes.map((p) => (
             <li key={p.id}>
-              {p.nombre} {p.apellido} - DNI: {p.dni} - Tel: {p.telefono} -
-              Email: {p.email} - Nacimiento: {p.fechaNacimiento}
+              <b>{p.id}</b> - Nombre: {p.nombre} {p.apellido} <br />
+               DNI: {p.dni} <br />
+               Tel: {p.telefono} <br />
+              Email: {p.email} <br />
+             Nacimiento: {p.fechaNacimiento} <hr />
             </li>
           ))}
         </ul>

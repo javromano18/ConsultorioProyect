@@ -67,27 +67,28 @@ function Profesionales() {
     <div className="profesionales-container">
       {mostrarLista && (
         <>
-          <h3>Lista de Profesionales</h3>
+          <h3>Lista de Profesionales</h3> <hr />
           <ul className="profesionales-list">
             {profesionales.map((p) => (
               <li key={p.id}>
-                {p.nombre} {p.apellido} - Matrícula: {p.matricula} -
-                Especialidad: {p.especialidad}
+                <b>{p.id}</b> - Nombre: {p.nombre} {p.apellido} <br /> 
+                Matrícula: {p.matricula} <br /> 
+                Especialidad: {p.especialidad} <hr />
               </li>
             ))}
           </ul>
 
           <h3>Lista de Pacientes</h3>
-          <ul className="pacientes-list">
+          <ul className="pacientes-list"> <hr />
             {pacientes.map((p) => (
               <li key={p.id}>
-                {p.nombre} {p.apellido} - DNI: {p.dni}
+               <b>{p.id}</b> -{p.nombre} {p.apellido} / DNI: {p.dni}
                 <button
                   className="btn-delete"
                   onClick={() => handleDeletePaciente(p.id)}
                 >
                   Eliminar
-                </button>
+                </button> <hr />
               </li>
             ))}
           </ul>

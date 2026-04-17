@@ -7,7 +7,10 @@ function Pacientes() {
   const [nuevoPaciente, setNuevoPaciente] = useState({
     nombre: "",
     apellido: "",
-    dni: ""
+    dni: "",
+    telefono: "",
+    email: "",
+    fechaNacimiento: ""
   });
 
   // Obtener pacientes
@@ -28,7 +31,14 @@ function Pacientes() {
     api.post("/pacientes", nuevoPaciente)
       .then(response => {
         setPacientes([...pacientes, response.data]);
-        setNuevoPaciente({ nombre: "", apellido: "", dni: "" });
+        setNuevoPaciente({ 
+          nombre: "", 
+          apellido: "", 
+          dni: "", 
+          telefono: "", 
+          email: "", 
+          fechaNacimiento: "" 
+        });
       })
       .catch(error => console.error(error));
   };
@@ -39,7 +49,7 @@ function Pacientes() {
       <ul className="pacientes-list">
         {pacientes.map(p => (
           <li key={p.id}>
-            {p.nombre} {p.apellido} - {p.dni}
+            {p.nombre} {p.apellido} - DNI: {p.dni} - Tel: {p.telefono} - Email: {p.email} - Nacimiento: {p.fechaNacimiento}
           </li>
         ))}
       </ul>
@@ -77,6 +87,42 @@ function Pacientes() {
             type="text"
             name="dni"
             value={nuevoPaciente.dni}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="telefono">Teléfono:</label>
+          <input
+            id="telefono"
+            type="text"
+            name="telefono"
+            value={nuevoPaciente.telefono}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={nuevoPaciente.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="fechaNacimiento">Fecha de nacimiento:</label>
+          <input
+            id="fechaNacimiento"
+            type="date"
+            name="fechaNacimiento"
+            value={nuevoPaciente.fechaNacimiento}
             onChange={handleChange}
             required
           />

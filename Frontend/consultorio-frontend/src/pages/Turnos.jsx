@@ -23,21 +23,27 @@ function Turnos() {
     setNuevoTurno({ ...nuevoTurno, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    api
-      .post("/turnos", nuevoTurno)
-      .then((response) => {
-        setTurnos([...turnos, response.data]);
-        setNuevoTurno({
-          fecha: "",
-          hora: "",
-          pacienteId: "",
-          profesionalId: "",
-        });
-      })
-      .catch((error) => console.error(error));
+const handleSubmit = (e) => {
+  e.preventDefault();
+  const payload = {
+    fecha: nuevoTurno.fecha,
+    hora: nuevoTurno.hora,
+    paciente: { id: nuevoTurno.pacienteId },
+    profesional: { id: nuevoTurno.profesionalId }
   };
+
+  api.post("/turnos", payload)
+    .then((response) => {
+      setTurnos([...turnos, response.data]);
+      setNuevoTurno({
+        fecha: "",
+        hora: "",
+        pacienteId: "",
+        profesionalId: "",
+      });
+    })
+    .catch((error) => console.error(error));
+};
 
   return (
     <div className="turnos-container">

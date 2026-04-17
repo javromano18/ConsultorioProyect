@@ -4,43 +4,58 @@ import "../styles/Profesionales.css";
 
 function Profesionales() {
   const [profesionales, setProfesionales] = useState([]);
+  const [mostrarLista, setMostrarLista] = useState(false); // nuevo estado
   const [nuevoProfesional, setNuevoProfesional] = useState({
     nombre: "",
     apellido: "",
     matricula: "",
-    especialidad: ""
+    especialidad: "",
   });
 
   useEffect(() => {
-    api.get("/profesionales")
-      .then(response => setProfesionales(response.data))
-      .catch(error => console.error(error));
+    api
+      .get("/profesionales")
+      .then((response) => setProfesionales(response.data))
+      .catch((error) => console.error(error));
   }, []);
 
   const handleChange = (e) => {
-    setNuevoProfesional({ ...nuevoProfesional, [e.target.name]: e.target.value });
+    setNuevoProfesional({
+      ...nuevoProfesional,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    api.post("/profesionales", nuevoProfesional)
-      .then(response => {
+    api
+      .post("/profesionales", nuevoProfesional)
+      .then((response) => {
         setProfesionales([...profesionales, response.data]);
-        setNuevoProfesional({ nombre: "", apellido: "", matricula: "", especialidad: "" });
+        setNuevoProfesional({
+          nombre: "",
+          apellido: "",
+          matricula: "",
+          especialidad: "",
+        });
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   };
 
   return (
     <div className="profesionales-container">
-      <h2>Listado de Profesionales</h2>
-      <ul className="profesionales-list">
-        {profesionales.map(p => (
-          <li key={p.id}>
-            {p.nombre} {p.apellido} - Matrícula: {p.matricula} - Especialidad: {p.especialidad}
-          </li>
-        ))}
-      </ul>
+      {mostrarLista && (
+        <> <h3>Lista de Profesionales</h3>
+        <ul className="profesionales-list">
+          {profesionales.map((p) => (
+            <li key={p.id}>
+              {p.nombre} {p.apellido} - Matrícula: {p.matricula} - Especialidad:{" "}
+              {p.especialidad}
+            </li>
+          ))}
+        </ul>
+        </>
+      )}
 
       <h3>Agregar Profesional</h3>
       <form className="profesional-form" onSubmit={handleSubmit}>
@@ -92,7 +107,15 @@ function Profesionales() {
           />
         </div>
 
-        <button type="submit" className="btn-submit">Guardar</button>
+        <button type="submit" className="btn-submit">
+          Guardar
+        </button>
+        <button
+          className="btn-toggle"
+          onClick={() => setMostrarLista(!mostrarLista)}
+        >
+          {mostrarLista ? "Ocultar profesionales" : "Ver profesionales"}
+        </button>
       </form>
     </div>
   );

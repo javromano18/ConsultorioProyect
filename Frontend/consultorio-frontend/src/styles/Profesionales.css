@@ -44,3 +44,17 @@ input {
 .btn-submit:hover {
   background-color: #3a9bdc;
 }
+
+.btn-toggle {
+  background-color: #4cafef;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-toggle:hover {
+  background-color: #357ab8;
+}

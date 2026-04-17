@@ -50,6 +50,7 @@ function Pacientes() {
     <div className="pacientes-container">
 
       {mostrarLista && (
+        <> <h3>Lista de Pacientes</h3>
         <ul className="pacientes-list">
           {pacientes.map((p) => (
             <li key={p.id}>
@@ -58,6 +59,7 @@ function Pacientes() {
             </li>
           ))}
         </ul>
+        </>
       )}
 
       <h3>Agregar Paciente</h3>

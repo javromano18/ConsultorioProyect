@@ -4,12 +4,12 @@ import "../styles/Turnos.css";
 
 function Turnos() {
   const [turnos, setTurnos] = useState([]);
+  const [mostrarLista, setMostrarLista] = useState(false); // nuevo estado
   const [nuevoTurno, setNuevoTurno] = useState({
     fecha: "",
     hora: "",
-    paciente: { id: "" },
-    profesional: { id: "" },
-    estado: "Pendiente",
+    pacienteId: "",
+    profesionalId: "",
   });
 
   useEffect(() => {
@@ -32,9 +32,8 @@ function Turnos() {
         setNuevoTurno({
           fecha: "",
           hora: "",
-          paciente: { id: "" },
-          profesional: { id: "" },
-          estado: "Pendiente",
+          pacienteId: "",
+          profesionalId: "",
         });
       })
       .catch((error) => console.error(error));
@@ -42,16 +41,19 @@ function Turnos() {
 
   return (
     <div className="turnos-container">
-      <h2>Listado de Turnos</h2>
-      <ul className="turnos-list">
-        {turnos.map((t) => (
-          <li key={t.id}>
-            {t.fecha} {t.hora} - Paciente: {t.paciente?.nombre}{" "}
-            {t.paciente?.apellido} / Profesional: {t.profesional?.nombre}{" "}
-            {t.profesional?.apellido}
-          </li>
-        ))}
-      </ul>
+      {mostrarLista && (
+        <> <h3>Lista de Turnos</h3>
+        <ul className="turnos-list">
+          {turnos.map((t) => (
+            <li key={t.id}>
+              Fecha: {t.fecha} - Hora: {t.hora} - Paciente: {t.paciente?.nombre}{" "}
+              {t.paciente?.apellido} - Profesional: {t.profesional?.nombre}{" "}
+              {t.profesional?.apellido}
+            </li>
+          ))}
+        </ul>
+        </>
+      )}
 
       <h3>Agregar Turno</h3>
       <form className="turno-form" onSubmit={handleSubmit}>
@@ -80,38 +82,37 @@ function Turnos() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="pacienteId">ID Paciente:</label>
+          <label htmlFor="pacienteId">Paciente ID:</label>
           <input
-            id="paciente"
+            id="pacienteId"
             type="text"
-            name="paciente"
-            value={nuevoTurno.paciente.id}
-            onChange={(e) =>
-              setNuevoTurno({ ...nuevoTurno, paciente: { id: e.target.value } })
-            }
+            name="pacienteId"
+            value={nuevoTurno.pacienteId}
+            onChange={handleChange}
             required
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="profesionalId">ID Profesional:</label>
+          <label htmlFor="profesionalId">Profesional ID:</label>
           <input
-            id="profesional"
+            id="profesionalId"
             type="text"
-            name="profesional"
-            value={nuevoTurno.profesional.id}
-            onChange={(e) =>
-              setNuevoTurno({
-                ...nuevoTurno,
-                profesional: { id: e.target.value },
-              })
-            }
+            name="profesionalId"
+            value={nuevoTurno.profesionalId}
+            onChange={handleChange}
             required
           />
         </div>
 
         <button type="submit" className="btn-submit">
           Guardar
+        </button>
+        <button
+          className="btn-toggle"
+          onClick={() => setMostrarLista(!mostrarLista)}
+        >
+          {mostrarLista ? "Ocultar turnos" : "Ver turnos"}
         </button>
       </form>
     </div>

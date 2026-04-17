@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import "../styles/Pacientes.css"; 
+import "../styles/Pacientes.css";
 
 function Pacientes() {
   const [pacientes, setPacientes] = useState([]);
+  const [mostrarLista, setMostrarLista] = useState(false); // nuevo estado
   const [nuevoPaciente, setNuevoPaciente] = useState({
     nombre: "",
     apellido: "",
     dni: "",
     telefono: "",
     email: "",
-    fechaNacimiento: ""
+    fechaNacimiento: "",
   });
 
   // Obtener pacientes
   useEffect(() => {
-    api.get("/pacientes")
-      .then(response => setPacientes(response.data))
-      .catch(error => console.error(error));
+    api
+      .get("/pacientes")
+      .then((response) => setPacientes(response.data))
+      .catch((error) => console.error(error));
   }, []);
 
   // Manejar cambios en el formulario
@@ -28,31 +30,35 @@ function Pacientes() {
   // Enviar nuevo paciente
   const handleSubmit = (e) => {
     e.preventDefault();
-    api.post("/pacientes", nuevoPaciente)
-      .then(response => {
+    api
+      .post("/pacientes", nuevoPaciente)
+      .then((response) => {
         setPacientes([...pacientes, response.data]);
-        setNuevoPaciente({ 
-          nombre: "", 
-          apellido: "", 
-          dni: "", 
-          telefono: "", 
-          email: "", 
-          fechaNacimiento: "" 
+        setNuevoPaciente({
+          nombre: "",
+          apellido: "",
+          dni: "",
+          telefono: "",
+          email: "",
+          fechaNacimiento: "",
         });
       })
-      .catch(error => console.error(error));
+      .catch((error) => console.error(error));
   };
 
   return (
     <div className="pacientes-container">
-      <h2>Listado de Pacientes</h2>
-      <ul className="pacientes-list">
-        {pacientes.map(p => (
-          <li key={p.id}>
-            {p.nombre} {p.apellido} - DNI: {p.dni} - Tel: {p.telefono} - Email: {p.email} - Nacimiento: {p.fechaNacimiento}
-          </li>
-        ))}
-      </ul>
+
+      {mostrarLista && (
+        <ul className="pacientes-list">
+          {pacientes.map((p) => (
+            <li key={p.id}>
+              {p.nombre} {p.apellido} - DNI: {p.dni} - Tel: {p.telefono} -
+              Email: {p.email} - Nacimiento: {p.fechaNacimiento}
+            </li>
+          ))}
+        </ul>
+      )}
 
       <h3>Agregar Paciente</h3>
       <form className="paciente-form" onSubmit={handleSubmit}>
@@ -128,7 +134,13 @@ function Pacientes() {
           />
         </div>
 
-        <button type="submit" className="btn-submit">Guardar</button>
+        <button type="submit" className="btn-submit">
+          Guardar
+        </button>
+
+        <button className="btn-toggle" onClick={() => setMostrarLista(!mostrarLista)}>
+          {mostrarLista ? "Ocultar pacientes" : "Ver pacientes"}
+        </button>
       </form>
     </div>
   );

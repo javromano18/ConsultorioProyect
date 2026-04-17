@@ -4,7 +4,7 @@ import "../styles/Profesionales.css";
 
 function Profesionales() {
   const [profesionales, setProfesionales] = useState([]);
-  const [mostrarLista, setMostrarLista] = useState(false); // nuevo estado
+  const [mostrarLista, setMostrarLista] = useState(false);
   const [nuevoProfesional, setNuevoProfesional] = useState({
     nombre: "",
     apellido: "",
@@ -12,10 +12,19 @@ function Profesionales() {
     especialidad: "",
   });
 
+  // Estado para pacientes
+  const [pacientes, setPacientes] = useState([]);
+
   useEffect(() => {
     api
       .get("/profesionales")
       .then((response) => setProfesionales(response.data))
+      .catch((error) => console.error(error));
+
+    // Cargar pacientes
+    api
+      .get("/pacientes")
+      .then((response) => setPacientes(response.data))
       .catch((error) => console.error(error));
   }, []);
 
@@ -42,18 +51,46 @@ function Profesionales() {
       .catch((error) => console.error(error));
   };
 
+  // Función para eliminar paciente
+  const handleDeletePaciente = (id) => {
+    if (window.confirm("¿Seguro que quieres eliminar este paciente?")) {
+      api
+        .delete(`/pacientes/${id}`)
+        .then(() => {
+          setPacientes(pacientes.filter((p) => p.id !== id));
+        })
+        .catch((error) => console.error(error));
+    }
+  };
+
   return (
     <div className="profesionales-container">
       {mostrarLista && (
-        <> <h3>Lista de Profesionales</h3>
-        <ul className="profesionales-list">
-          {profesionales.map((p) => (
-            <li key={p.id}>
-              {p.nombre} {p.apellido} - Matrícula: {p.matricula} - Especialidad:{" "}
-              {p.especialidad}
-            </li>
-          ))}
-        </ul>
+        <>
+          <h3>Lista de Profesionales</h3>
+          <ul className="profesionales-list">
+            {profesionales.map((p) => (
+              <li key={p.id}>
+                {p.nombre} {p.apellido} - Matrícula: {p.matricula} -
+                Especialidad: {p.especialidad}
+              </li>
+            ))}
+          </ul>
+
+          <h3>Lista de Pacientes</h3>
+          <ul className="pacientes-list">
+            {pacientes.map((p) => (
+              <li key={p.id}>
+                {p.nombre} {p.apellido} - DNI: {p.dni}
+                <button
+                  className="btn-delete"
+                  onClick={() => handleDeletePaciente(p.id)}
+                >
+                  Eliminar
+                </button>
+              </li>
+            ))}
+          </ul>
         </>
       )}
 
@@ -114,7 +151,7 @@ function Profesionales() {
           className="btn-toggle"
           onClick={() => setMostrarLista(!mostrarLista)}
         >
-          {mostrarLista ? "Ocultar profesionales" : "Ver profesionales"}
+          {mostrarLista ? "Ocultar listas" : "Ver listas"}
         </button>
       </form>
     </div>

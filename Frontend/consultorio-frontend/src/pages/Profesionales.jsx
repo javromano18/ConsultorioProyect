@@ -59,7 +59,19 @@ function Profesionales() {
         .then(() => {
           setPacientes(pacientes.filter((p) => p.id !== id));
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error);
+
+          const backendMessage =
+            error.response?.data?.message ||
+            error.response?.data?.error ||
+            error.response?.data;
+
+          window.alert(
+            backendMessage ||
+              "No se pudo eliminar el paciente. Es probable que tenga turnos asociados y primero debas eliminarlos o desvincularlos desde el backend."
+          );
+        });
     }
   };
 

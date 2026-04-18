@@ -2,6 +2,8 @@ package com.PortafolioProyect.consultorio_proyect.service;
 
 import com.PortafolioProyect.consultorio_proyect.model.Paciente;
 import com.PortafolioProyect.consultorio_proyect.repository.PacienteRepository;
+import com.PortafolioProyect.consultorio_proyect.repository.TurnoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +11,11 @@ import java.util.List;
 @Service
 public class PacienteService {
     private final PacienteRepository pacienteRepository;
+    private final TurnoRepository turnoRepository;
 
-    public PacienteService(PacienteRepository pacienteRepository) {
+    public PacienteService(PacienteRepository pacienteRepository, TurnoRepository turnoRepository) {
         this.pacienteRepository = pacienteRepository;
+        this.turnoRepository = turnoRepository;
     }
 
     //Listar todos
@@ -45,7 +49,9 @@ public class PacienteService {
     }
 
     //Eliminar
+    @Transactional
     public void deletePaciente(Long id){
+        turnoRepository.deleteByPacienteId(id);
         pacienteRepository.deleteById(id);
     }
 }
